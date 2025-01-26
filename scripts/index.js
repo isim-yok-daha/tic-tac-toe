@@ -10,6 +10,7 @@ const line = document.getElementById('line');
 const turnIndicator = document.getElementById('turn-indicator');
 let isXTurn = true;
 let isOnePlayer = false;
+let isComputerTurn = false;
 
 const winningCombinations = [
   [0, 1, 2],
@@ -54,9 +55,13 @@ function drawWinningLine(combination) {
 }
 
 function handleClick(e) {
-  const cell = e.target;
-  const currentClass = isXTurn ? 'x' : 'o';
+  if (isOnePlayer && isComputerTurn) return;
 
+  const cell = e.target;
+
+  if (cell.classList.contains('x') || cell.classList.contains('o')) return;
+
+  const currentClass = isXTurn ? 'x' : 'o';
   cell.classList.add(currentClass);
 
   const winningCombination = winningCombinations.find(combination =>
@@ -75,9 +80,11 @@ function handleClick(e) {
   updateTurnIndicator();
 
   if (isOnePlayer && !isXTurn) {
+    isComputerTurn = true;
     setTimeout(() => {
       computerMove();
       isXTurn = true;
+      isComputerTurn = false;
       updateTurnIndicator();
     }, 1000);
   }
@@ -98,7 +105,7 @@ function computerMove() {
 
     if (winningCombination) {
       drawWinningLine(winningCombination);
-      setTimeout(() => alert('Opponent wins!'), 500);
+      setTimeout(() => alert('Opponent Wins!'), 500);
       cells.forEach(cell => cell.removeEventListener('click', handleClick));
       turnIndicator.style.display = 'none';
     }
@@ -115,37 +122,36 @@ function startGame(onePlayerMode) {
 }
 
 function restartGame() {
-    cells.forEach(cell => {
-      cell.classList.remove('x', 'o');
-      cell.removeEventListener('click', handleClick);
-      cell.addEventListener('click', handleClick, { once: true });
-    });
-  
-    line.style.width = '0';
-    line.style.opacity = '0';
-    isXTurn = true;
-  
-    turnIndicator.style.display = 'block';
-    updateTurnIndicator();
-  }
-  
+  cells.forEach(cell => {
+    cell.classList.remove('x', 'o');
+    cell.removeEventListener('click', handleClick);
+    cell.addEventListener('click', handleClick, { once: true });
+  });
+
+  line.style.width = '0';
+  line.style.opacity = '0';
+  isXTurn = true;
+
+  turnIndicator.style.display = 'block';
+  updateTurnIndicator();
+}
 
 function backToMenu() {
-    gameContainer.style.display = 'none';
-    menu.style.display = 'flex';
-  
-    line.style.width = '0';
-    line.style.opacity = '0';
-  
-    turnIndicator.style.display = 'none';
-  
-    cells.forEach(cell => {
-      cell.classList.remove('x', 'o');
-      cell.removeEventListener('click', handleClick);
-    });
-  
-    isXTurn = true;
-  }  
+  gameContainer.style.display = 'none';
+  menu.style.display = 'flex';
+
+  line.style.width = '0';
+  line.style.opacity = '0';
+
+  turnIndicator.style.display = 'none';
+
+  cells.forEach(cell => {
+    cell.classList.remove('x', 'o');
+    cell.removeEventListener('click', handleClick);
+  });
+
+  isXTurn = true;
+}
 
 document.addEventListener('mousemove', (e) => {
   turnIndicator.style.left = `${e.pageX + 20}px`;
