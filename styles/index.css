@@ -6,13 +6,69 @@ body {
     height: 100vh;
     margin: 0;
     background-color: #f4f4f4;
+    position: relative;
   }
-  
-  .game-container {
+  .menu {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
   }
+
+  .menu button {
+    margin: 10px 0;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(45deg, #ff6b6b, #f06595);
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .menu button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .menu button:active {
+    transform: scale(1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  #back-to-menu {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(45deg, #6b6bff, #95a5f0);
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  #back-to-menu:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  #back-to-menu:active {
+    transform: scale(1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }  
+  
+
+  
+  .game-container {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+  }
+  
   
   .board {
     width: 300px;
@@ -24,9 +80,10 @@ body {
     background-size: cover;
     position: relative;
   }
+  
   .cell {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -49,13 +106,27 @@ body {
   }
   .line {
     position: absolute;
-    height: 5px;
+    height: 8px;
     background-color: red;
-    transform-origin: 0 0;
-    transform: scale(0);
+    transform-origin: left center;
     width: 0;
     opacity: 0;
     transition: width 0.5s ease-in-out, opacity 0.3s;
+  }
+  
+  .turn-indicator {
+    position: absolute;
+    pointer-events: none;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    z-index: 999;
+    transform: translate(-50%, -50%);
+    display: none;
   }
   
   button {
@@ -79,7 +150,4 @@ body {
   button:active {
     transform: scale(1);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-
-  
-  
+  }  
